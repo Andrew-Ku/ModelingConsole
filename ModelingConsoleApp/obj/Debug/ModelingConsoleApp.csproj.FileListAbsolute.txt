@@ -1,1 +1,6 @@
 C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\ModelingConsoleApp.exe.config
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\ModelingConsoleApp.exe
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\ModelingConsoleApp.pdb
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.csprojResolveAssemblyReference.cache
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.exe
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.pdb
