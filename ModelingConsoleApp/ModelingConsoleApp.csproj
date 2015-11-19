@@ -41,9 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Const\TaskTypes.cs" />
     <Compile Include="Infrastructure\Generator.cs" />
     <Compile Include="Model\QueryInfo.cs" />
+    <Compile Include="Model\TaskA.cs" />
+    <Compile Include="Model\TaskB.cs" />
     <Compile Include="Model\TaskBase.cs" />
+    <Compile Include="Model\TaskC.cs" />
     <Compile Include="Model\TaskInfo.cs" />
     <Compile Include="Model\TaskQueue.cs" />
     <Compile Include="Program.cs" />
@@ -52,9 +56,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Const\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

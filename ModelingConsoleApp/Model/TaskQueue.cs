@@ -21,13 +21,15 @@ namespace ModelingConsoleApp.Model
 
         #region Методы
 
-        public void DisplayQuery()
+        public void DisplayQuery() 
         {
             if (!this.Any()) Console.WriteLine("Очередь пуста");
 
-            foreach (var item in this)
+            Console.WriteLine("Содержимое очериди");
+
+            foreach (var item  in this )  // EXception
             {
-                Console.Write(item + " ");
+                Console.WriteLine((item as TaskBase).Type);
             }
         }
         
