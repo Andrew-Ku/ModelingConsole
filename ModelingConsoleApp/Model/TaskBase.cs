@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace ModelingConsoleApp.Model
 {
-    public class TaskBase
+    public abstract class TaskBase
     {
         public int Id { get; set; }
         public int Priority { get; set; }
         public string Type { get; set; }
         public string Name { get; set; } 
-
-        
 
         public TaskInfo TaskInfo { get; set; }
     }

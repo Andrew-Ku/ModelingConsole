@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Const\TaskTypes.cs" />
     <Compile Include="Infrastructure\Generator.cs" />
+    <Compile Include="Model\Device.cs" />
+    <Compile Include="Model\DeviceInfo.cs" />
     <Compile Include="Model\QueryInfo.cs" />
     <Compile Include="Model\TaskA.cs" />
     <Compile Include="Model\TaskB.cs" />
