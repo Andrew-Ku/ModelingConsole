@@ -4,3 +4,9 @@ C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\ModelingConsole
 C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.csprojResolveAssemblyReference.cache
 C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.exe
 C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.pdb
+C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\bin\Debug\ModelingConsoleApp.exe.config
+C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.exe
+C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.pdb
+C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\bin\Debug\ModelingConsoleApp.exe
+C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\bin\Debug\ModelingConsoleApp.pdb
+C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.csprojResolveAssemblyReference.cache

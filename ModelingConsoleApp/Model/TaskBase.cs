@@ -12,7 +12,9 @@ namespace ModelingConsoleApp.Model
         public int Id { get; set; }
         public int Priority { get; set; }
         public string Type { get; set; }
-        public string Name { get; set; } 
+        public string Name { get; set; }
+
+        public double GenerateTime { get; set; }
 
         public TaskInfo TaskInfo { get; set; }
     }

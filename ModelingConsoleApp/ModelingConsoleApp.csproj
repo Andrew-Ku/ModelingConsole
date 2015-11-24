@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Const\InputValues.cs" />
     <Compile Include="Const\TaskTypes.cs" />
     <Compile Include="Infrastructure\Generator.cs" />
     <Compile Include="Model\Device.cs" />
