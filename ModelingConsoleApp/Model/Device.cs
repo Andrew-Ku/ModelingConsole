@@ -22,24 +22,24 @@ namespace ModelingConsoleApp.Model
       //  private _channel
 
         public string Name { get; set; }
-        public TaskBase Channel1
-        {
-            get { return Channel1; }
-            set
-            {
-                Channel1 = value;
-                IsAvailableChannel1 = value == null;
-            }
-        }
-        public TaskBase Channel2
-        {
-            get { return Channel2; }
-            set
-            {
-                Channel2 = value;
-                IsAvailableChannel2 = value == null;
-            }
-        }
+        //public TaskBase Channel1
+        //{
+        //    get { return Channel1; }
+        //    set
+        //    {
+        //        Channel1 = value;
+        //        IsAvailableChannel1 = value == null;
+        //    }
+        //}
+        //public TaskBase Channel2
+        //{
+        //    get { return Channel2; }
+        //    set
+        //    {
+        //        Channel2 = value;
+        //        IsAvailableChannel2 = value == null;
+        //    }
+        //}
         public DeviceInfo DeviceInfo { get; set; }
 
         // Очередь к устройству
@@ -65,63 +65,63 @@ namespace ModelingConsoleApp.Model
 
 
         // Освободить каналы
-        public void Release()
-        {
-            Channel1 = null;
-            Channel2 = null;
-        }
+        //public void Release()
+        //{
+        //    Channel1 = null;
+        //    Channel2 = null;
+        //}
 
         // Освободить заданный канал
-        public void Release(int channelNum)
-        {
-            switch (channelNum)
-            {
-                case 1:
-                    Channel1 = null;
-                    break;
-                case 2:
-                    Channel2 = null;
-                    break;
-                default: throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
-            }
-        }
+        //public void Release(int channelNum)
+        //{
+        //    switch (channelNum)
+        //    {
+        //        case 1:
+        //            Channel1 = null;
+        //            break;
+        //        case 2:
+        //            Channel2 = null;
+        //            break;
+        //        default: throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
+        //    }
+        //}
 
         // Занять устройство
-        public void Seize(TaskBase task)
-        {
-            if (task.Type == TaskTypes.ClassA || task.Type == TaskTypes.ClassB)
-            {
-                if (IsAvailableChannel1)
-                {
-                    Channel1 = task;
-                    IsAvailableChannel1 = false;
-                }
-                else if (IsAvailableChannel2)
-                {
-                    Channel2 = task;
-                    IsAvailableChannel2 = false;
-                }
-                else
-                {
-                    TaskQueue.Enqueue(task);
-                }
-            }
-            // Задача класса C занимает 2 канала
-            else
-            {
-                if (IsAvailableChannel1 && IsAvailableChannel2)
-                {
-                    Channel1 = task;
-                    Channel2 = task;
-                    IsAvailableChannel1 = false;
-                    IsAvailableChannel2 = false;
-                }
-                else
-                {
-                    TaskQueue.Enqueue(task);
-                }
-            }
-        }
+        //public void Seize(TaskBase task)
+        //{
+        //    if (task.Type == TaskTypes.ClassA || task.Type == TaskTypes.ClassB)
+        //    {
+        //        if (IsAvailableChannel1)
+        //        {
+        //            Channel1 = task;
+        //            IsAvailableChannel1 = false;
+        //        }
+        //        else if (IsAvailableChannel2)
+        //        {
+        //            Channel2 = task;
+        //            IsAvailableChannel2 = false;
+        //        }
+        //        else
+        //        {
+        //            TaskQueue.Enqueue(task);
+        //        }
+        //    }
+        //    // Задача класса C занимает 2 канала
+        //    else
+        //    {
+        //        if (IsAvailableChannel1 && IsAvailableChannel2)
+        //        {
+        //            Channel1 = task;
+        //            Channel2 = task;
+        //            IsAvailableChannel1 = false;
+        //            IsAvailableChannel2 = false;
+        //        }
+        //        else
+        //        {
+        //            TaskQueue.Enqueue(task);
+        //        }
+        //    }
+       // }
 
     }
 }

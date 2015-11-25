@@ -12,7 +12,7 @@ namespace ModelingConsoleApp.Model
     {
         public static int Count;
         public static double TimeLine;
-       
+
         public TaskB()
         {
             Count++;
@@ -21,5 +21,12 @@ namespace ModelingConsoleApp.Model
             TimeLine += Generator.ExpDistribution(0.4);
             GenerateTime = TimeLine;
         }
+
+        public static void ResetCountAndTimeLine()
+        {
+            Count = 0;
+            TimeLine = 0;
+        }
     }
+
 }

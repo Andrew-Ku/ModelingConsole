@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ModelingConsoleApp</name>
+    </assembly>
+    <members>
+        <member name="F:ModelingConsoleApp.Const.InputValues.TaskCountForGlobalList">
+            <summary>
+            Количество сгенерированных задач каждого класса
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.TaskCountForSystem">
+            <summary>
+            Количество обслужеваемых системой задач
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.ModelingTimeForSystem">
+            <summary>
+            Время моделирования
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.AddTasksByCountToGlobalList(System.Collections.Generic.List{ModelingConsoleApp.Model.TaskBase},System.Type,System.Int32)">
+            <summary>
+            Генерация определенного количтва задач
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.AddTasksByTimeToGlobalList(System.Collections.Generic.List{ModelingConsoleApp.Model.TaskBase},System.Type,System.Double)">
+            <summary>
+            Генерация задач в зависимости от модельного мремени
+            </summary>
+        </member>
+    </members>
+</doc>

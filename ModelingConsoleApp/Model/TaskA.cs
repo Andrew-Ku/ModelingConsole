@@ -22,5 +22,11 @@ namespace ModelingConsoleApp.Model
             TimeLine += Generator.ExpDistribution(0.6);
             GenerateTime = TimeLine;
         }
+
+        public static void ResetCountAndTimeLine()
+        {
+            Count = 0;
+            TimeLine = 0;
+        }
     }
 }

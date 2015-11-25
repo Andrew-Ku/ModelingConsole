@@ -10,3 +10,4 @@ C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingCo
 C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\bin\Debug\ModelingConsoleApp.exe
 C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\bin\Debug\ModelingConsoleApp.pdb
 C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\obj\Debug\ModelingConsoleApp.csprojResolveAssemblyReference.cache
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\ModelingConsoleApp.XML

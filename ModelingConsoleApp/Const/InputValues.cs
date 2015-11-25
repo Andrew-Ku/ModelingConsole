@@ -17,5 +17,10 @@ namespace ModelingConsoleApp.Const
         /// Количество обслужеваемых системой задач
         /// </summary>
         public static int TaskCountForSystem = 10000;
+
+        /// <summary>
+        /// Время моделирования
+        /// </summary>
+        public static double ModelingTimeForSystem = 2000;
     }
 }
