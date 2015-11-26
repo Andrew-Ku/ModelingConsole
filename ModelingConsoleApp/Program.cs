@@ -15,65 +15,80 @@ namespace ModelingConsoleApp
 {
     class Program
     {
+        public static List<Event> EventList = new List<Event>(); // Список событий 
+        public static double ModelingTime;   // Время моделирования
+        public static Device Device= new Device("Dev1");   // Время моделирования
+
+
         private static void Main(string[] args)
         {
-            var taskSourceList = new List<TaskBase>();
-            var taskSourceListByTime = new List<TaskBase>();
+            var modeling = true; // Флаг работы модели
 
-            AddTasksByCountToGlobalList(taskSourceList, typeof(TaskA), InputValues.TaskCountForGlobalList);
-            AddTasksByCountToGlobalList(taskSourceList, typeof(TaskB), InputValues.TaskCountForGlobalList);
-            AddTasksByCountToGlobalList(taskSourceList, typeof(TaskC), InputValues.TaskCountForGlobalList);
+            InitializationEvent(); // Инициализирующее событие
 
-            var sortedTaskSourceList = taskSourceList.OrderBy(t => t.GenerateTime).Take(InputValues.TaskCountForSystem);
+            while (modeling)
+            {
+                var currentEvent = GetEvent();
+                switch (currentEvent.EventCode)
+                {
+                    case EventCode.TaskGen:
+                        TaskGenEventHandler(currentEvent);
+                        break;
 
-            Console.WriteLine("По количеству");
-            Console.WriteLine(sortedTaskSourceList.Count(x => x.Type == TaskTypes.ClassA));
-            Console.WriteLine(sortedTaskSourceList.Count(x => x.Type == TaskTypes.ClassB));
-            Console.WriteLine(sortedTaskSourceList.Count(x => x.Type == TaskTypes.ClassC));
+                    case EventCode.StopModeling:
+                        modeling = false;
+                        break;
+                }
 
-            TaskA.ResetCountAndTimeLine();
-            TaskB.ResetCountAndTimeLine();
-            TaskC.ResetCountAndTimeLine();
 
-            AddTasksByTimeToGlobalList(taskSourceListByTime, typeof(TaskA), InputValues.ModelingTimeForSystem);
-            AddTasksByTimeToGlobalList(taskSourceListByTime, typeof(TaskB), InputValues.ModelingTimeForSystem);
-            AddTasksByTimeToGlobalList(taskSourceListByTime, typeof(TaskC), InputValues.ModelingTimeForSystem);
+                modeling = false; // Для теста
 
-            var sortedTaskSourceListByTime = taskSourceListByTime.OrderBy(t => t.GenerateTime);
+            }
 
-            Console.WriteLine("По времени");
-            Console.WriteLine(sortedTaskSourceListByTime.Count(x => x.Type == TaskTypes.ClassA));
-            Console.WriteLine(sortedTaskSourceListByTime.Count(x => x.Type == TaskTypes.ClassB));
-            Console.WriteLine(sortedTaskSourceListByTime.Count(x => x.Type == TaskTypes.ClassC));
 
             Console.ReadKey();
         }
 
-
         /// <summary>
-        /// Генерация определенного количтва задач
+        /// Обработка поступления задачи
         /// </summary>
-        private static void AddTasksByCountToGlobalList(List<TaskBase> list, Type typeTask, int count)
+        public static void TaskGenEventHandler(Event e)
         {
-            for (var i = 0; i < count; i++)
-            {
-                list.Add((TaskBase)Activator.CreateInstance(typeTask));
-            }
+
         }
 
 
         /// <summary>
-        /// Генерация задач в зависимости от модельного мремени
+        ///  Инициализирующее событие
         /// </summary>
-        private static void AddTasksByTimeToGlobalList(List<TaskBase> list, Type typeTask, double time)
+        public static void InitializationEvent()
         {
-            while (true)
-            {
-                list.Add((TaskBase)Activator.CreateInstance(typeTask));
+            PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(0.2), TaskTypes.ClassA);
+            PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(0.4), TaskTypes.ClassB);
+            PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(0.6), TaskTypes.ClassC);
 
-                if (list.Last().GenerateTime >= time)
-                    break;
-            }
+            EventList.OrderBy(e => e.EventTime);
+        }
+
+        /// <summary>
+        /// Получение кода первого события в списке
+        /// </summary>
+        static public Event GetEvent()
+        {
+            return EventList.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Добавление события в список (планирование)
+        /// </summary>
+        public static void PlanEvent(int eventCode, double eventTime, string taskType)
+        {
+            EventList.Add(new Event()
+            {
+                EventCode = eventCode,
+                EventTime = eventTime,
+                TaskType = taskType
+            });
         }
     }
 }

@@ -4,6 +4,16 @@
         <name>ModelingConsoleApp</name>
     </assembly>
     <members>
+        <member name="F:ModelingConsoleApp.Const.EventCode.TaskGen">
+            <summary>
+            Поступление заявки
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.EventCode.StopModeling">
+            <summary>
+            Окончание моделирования
+            </summary>
+        </member>
         <member name="F:ModelingConsoleApp.Const.InputValues.TaskCountForGlobalList">
             <summary>
             Количество сгенерированных задач каждого класса
@@ -19,14 +29,19 @@
             Время моделирования
             </summary>
         </member>
-        <member name="M:ModelingConsoleApp.Program.AddTasksByCountToGlobalList(System.Collections.Generic.List{ModelingConsoleApp.Model.TaskBase},System.Type,System.Int32)">
+        <member name="M:ModelingConsoleApp.Program.InitializationEvent">
             <summary>
-            Генерация определенного количтва задач
+             Инициализирующее событие
             </summary>
         </member>
-        <member name="M:ModelingConsoleApp.Program.AddTasksByTimeToGlobalList(System.Collections.Generic.List{ModelingConsoleApp.Model.TaskBase},System.Type,System.Double)">
+        <member name="M:ModelingConsoleApp.Program.GetEventCode">
             <summary>
-            Генерация задач в зависимости от модельного мремени
+            Получение кода первого события в списке
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.AddEventToList(System.Int32,System.Double,System.String)">
+            <summary>
+            Добавление события в список
             </summary>
         </member>
     </members>

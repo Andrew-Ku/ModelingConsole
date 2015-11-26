@@ -16,12 +16,21 @@ namespace ModelingConsoleApp.Model
             TaskQueue = new TaskQueue<TaskBase>();
             IsAvailableChannel1 = true;
             IsAvailableChannel2 = true;
+            Channels = new List<TaskBase>();
         }
 
 
-      //  private _channel
+        //  private _channel
 
         public string Name { get; set; }
+
+        private List<TaskBase> Channels { get; set; }
+
+
+
+
+
+
         //public TaskBase Channel1
         //{
         //    get { return Channel1; }
@@ -54,15 +63,6 @@ namespace ModelingConsoleApp.Model
         // Доступно ли устройство
         public bool IsDeviceAvailable { get; set; }
 
-        #region События
-        ///
-        /// 
-        /// 
-        /// 
-        ///
-        #endregion
-
-
 
         // Освободить каналы
         //public void Release()
@@ -87,41 +87,42 @@ namespace ModelingConsoleApp.Model
         //}
 
         // Занять устройство
-        //public void Seize(TaskBase task)
-        //{
-        //    if (task.Type == TaskTypes.ClassA || task.Type == TaskTypes.ClassB)
-        //    {
-        //        if (IsAvailableChannel1)
-        //        {
-        //            Channel1 = task;
-        //            IsAvailableChannel1 = false;
-        //        }
-        //        else if (IsAvailableChannel2)
-        //        {
-        //            Channel2 = task;
-        //            IsAvailableChannel2 = false;
-        //        }
-        //        else
-        //        {
-        //            TaskQueue.Enqueue(task);
-        //        }
-        //    }
-        //    // Задача класса C занимает 2 канала
-        //    else
-        //    {
-        //        if (IsAvailableChannel1 && IsAvailableChannel2)
-        //        {
-        //            Channel1 = task;
-        //            Channel2 = task;
-        //            IsAvailableChannel1 = false;
-        //            IsAvailableChannel2 = false;
-        //        }
-        //        else
-        //        {
-        //            TaskQueue.Enqueue(task);
-        //        }
-        //    }
-       // }
-
+        public void Seize(TaskBase task)
+        {
+            if (TaskQueue.Count == 0)
+            {
+                if (task.Type == TaskTypes.ClassA || task.Type == TaskTypes.ClassB)
+                {
+                    if (Channels.Count < 2)
+                    {
+                        Channels.Add(task);
+                    }
+                    else if (IsAvailableChannel2)
+                    {
+                        Channel2 = task;
+                        IsAvailableChannel2 = false;
+                    }
+                    else
+                    {
+                        TaskQueue.Enqueue(task);
+                    }
+                }
+                // Задача класса C занимает 2 канала
+                else
+                {
+                    if (IsAvailableChannel1 && IsAvailableChannel2)
+                    {
+                        Channel1 = task;
+                        Channel2 = task;
+                        IsAvailableChannel1 = false;
+                        IsAvailableChannel2 = false;
+                    }
+                    else
+                    {
+                        TaskQueue.Enqueue(task);
+                    }
+                }
+            }
+        }
     }
 }
