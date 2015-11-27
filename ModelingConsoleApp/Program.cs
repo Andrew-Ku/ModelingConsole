@@ -22,6 +22,9 @@ namespace ModelingConsoleApp
         public static bool IsFreeChannel1 = true; // Свободен ли канал 1
         public static bool IsFreeChannel2 = true;
 
+        public static List<string> FileLines = new List<string>();
+        private const string FilePath = "Log.txt";
+
         public static List<TaskBase> TestQuery = new List<TaskBase>(); // Не объектная очередь для теста
 
 
@@ -33,15 +36,17 @@ namespace ModelingConsoleApp
 
             var iter = 0; // Для теста
 
-            while (iter < 10) // Основной цикл моделирования 
+            while (iter < 100) // Основной цикл моделирования 
             //   while (modeling) // Основной цикл моделирования 
             {
                 var currentEvent = GetEvent();
                 EventDictionary.DisplayEvent(currentEvent.EventCode);
+                FileLines.Add(EventDictionary.GetValue(currentEvent.EventCode));
                 switch (currentEvent.EventCode)
                 {
                     case EventCode.TaskGen:
                         Console.WriteLine(currentEvent.TaskType);
+                        FileLines.Add(currentEvent.TaskType);
                         TaskGen_EventHandler(currentEvent);
                         break;
 
@@ -77,6 +82,16 @@ namespace ModelingConsoleApp
             }
 
 
+
+            if (!File.Exists(FilePath))
+            {
+                using ( File.Create(FilePath)){}
+                
+            }
+          //  c.Aggregate(new TimeSpan(), (sum, gr) =>sum.Add(gr.TimeCosts) вот так можно
+           // FileLines.Aggregate()
+            File.WriteAllLines(FilePath, FileLines);
+
             Console.ReadKey();
         }
 
@@ -104,8 +119,9 @@ namespace ModelingConsoleApp
                         case TaskTypes.ClassA: TestQuery.Add(new TaskA()); break;
                         case TaskTypes.ClassB: TestQuery.Add(new TaskB()); break;
                     }
-                  
+
                     Console.WriteLine("В очереди: {0}", TestQuery.Count);
+                    FileLines.Add(string.Format("В очереди: {0}", TestQuery.Count));
                     // PlanEvent(EventCode.GetTaskFromQueue, TestQuery.Sum(x => x.GenerateTime), e.TaskType);  // !!! - Решить вопрос со временем
                 }
             }
@@ -124,7 +140,9 @@ namespace ModelingConsoleApp
                 }
             }
 
-            PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(e.TaskType, GeneratorParametrs.Generation) + ModelingTime, e.TaskType);
+            ModelingTime = Generator.ExpDistribution(e.TaskType, GeneratorParametrs.Generation) + ModelingTime;
+
+            PlanEvent(EventCode.TaskGen, ModelingTime, e.TaskType);
         }
 
         /// <summary>
@@ -161,8 +179,12 @@ namespace ModelingConsoleApp
                 IsFreeChannel1 = true;
                 return;
             }
+
+            if (firstTask.Type == TaskTypes.ClassC) return;
+
             TestQuery.RemoveAt(0);
             Console.WriteLine("Берем из очереди");
+            FileLines.Add("Берем из очереди");
             PlanEvent(EventCode.ReleaseChannel1, Generator.ExpDistribution(firstTask.Type, GeneratorParametrs.Advance) + ModelingTime, firstTask.Type);
             IsFreeChannel1 = false; // Скорее всего излишнее , т.к. мы не освобождали канал
         }
@@ -180,8 +202,12 @@ namespace ModelingConsoleApp
                 IsFreeChannel2 = true;
                 return;
             }
+
+            if (firstTask.Type == TaskTypes.ClassC) return;
+
             TestQuery.RemoveAt(0);
-            Console.WriteLine("Берем из очереди");
+            Console.WriteLine("Берем из очереди " + firstTask.Type);
+            FileLines.Add("Берем из очереди " + firstTask.Type);
             PlanEvent(EventCode.ReleaseChannel2, Generator.ExpDistribution(firstTask.Type, GeneratorParametrs.Advance) + ModelingTime, firstTask.Type);
             IsFreeChannel2 = false; // Скорее всего излишнее , т.к. мы не освобождали канал
         }
@@ -190,8 +216,13 @@ namespace ModelingConsoleApp
         /// </summary>
         public static void ReleaseChannelAll_EventHandler(Event e)
         {
+
             IsFreeChannel1 = true;
             IsFreeChannel2 = true;
+
+
+
+
         }
         /// <summary>
         /// Обработка поступления задачи
@@ -209,7 +240,7 @@ namespace ModelingConsoleApp
         {
             PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(TaskTypes.ClassA, GeneratorParametrs.Generation), TaskTypes.ClassA);
             PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(TaskTypes.ClassB, GeneratorParametrs.Generation), TaskTypes.ClassB);
-            PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(TaskTypes.ClassC, GeneratorParametrs.Generation), TaskTypes.ClassC);
+            //PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(TaskTypes.ClassC, GeneratorParametrs.Generation), TaskTypes.ClassC);
 
             EventList.OrderBy(e => e.EventTime);
             ModelingTime = EventList.Last().EventTime; // Задаем модельное время последним событием (Значит обязательно выполнятся первые три события. Это не очень правильно)

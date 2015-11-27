@@ -26,7 +26,7 @@ namespace ModelingConsoleApp.Const
         /// <summary>
         /// Параметр бета для экспоненциального распределения задач класса A
         /// </summary>
-        public static double BetaA = 0.2;
+        public static double BetaA = 0.3;
 
         /// <summary>
         /// Параметр бета для экспоненциального распределения задач класса B
@@ -36,7 +36,7 @@ namespace ModelingConsoleApp.Const
         /// <summary>
         /// Параметр бета для экспоненциального распределения задач класса C
         /// </summary>
-        public static double BetaC = 0.5;
+        public static double BetaC = 0.1;
 
         /// <summary>
         /// Параметр бета для времени обслуживания задач класса A
