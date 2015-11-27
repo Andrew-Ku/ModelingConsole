@@ -20,6 +20,7 @@ namespace ModelingConsoleApp.Model
             Type = TaskTypes.ClassB;
             TimeLine += Generator.ExpDistribution(0.4);
             GenerateTime = TimeLine;
+            Priority = InputValues.PriorityB;
         }
 
         public static void ResetCountAndTimeLine()

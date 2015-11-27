@@ -9,6 +9,41 @@
             Поступление заявки
             </summary>
         </member>
+        <member name="F:ModelingConsoleApp.Const.EventCode.SeizeChannel1">
+            <summary>
+            Занять канал 1
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.EventCode.SeizeChannel2">
+            <summary>
+            Занять канал 2
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.EventCode.SeizeChannelAll">
+            <summary>
+            Занятьвсе каналы
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.EventCode.ReleaseChannel1">
+            <summary>
+            Освободить канал 1
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.EventCode.ReleaseChannel2">
+            <summary>
+            Освободить канал 2
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.EventCode.ReleaseChannelAll">
+            <summary>
+            Освободить все каналы
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.EventCode.GetTaskFromQueue">
+            <summary>
+            Добавить задачу в очередь
+            </summary>
+        </member>
         <member name="F:ModelingConsoleApp.Const.EventCode.StopModeling">
             <summary>
             Окончание моделирования
@@ -29,19 +64,114 @@
             Время моделирования
             </summary>
         </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.BetaA">
+            <summary>
+            Параметр бета для экспоненциального распределения задач класса A
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.BetaB">
+            <summary>
+            Параметр бета для экспоненциального распределения задач класса B
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.BetaC">
+            <summary>
+            Параметр бета для экспоненциального распределения задач класса C
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.BetaAdvanceA">
+            <summary>
+            Параметр бета для времени обслуживания задач класса A
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.BetaAdvanceB">
+            <summary>
+            Параметр бета для времени обслуживания задач класса B
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.BetaAdvanceC">
+            <summary>
+            Параметр бета для времени обслуживания задач класса C
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.PriorityA">
+            <summary>
+            Параметр бета для времени обслуживания задач класса A
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.PriorityB">
+            <summary>
+            Параметр бета для времени обслуживания задач класса B
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.InputValues.PriorityC">
+            <summary>
+            Параметр бета для времени обслуживания задач класса C
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.GeneratorParametrs.Generation">
+            <summary>
+             Для генерации
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Const.GeneratorParametrs.Advance">
+            <summary>
+             Для задержки при обслуживании
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.TaskGen_EventHandler(ModelingConsoleApp.Model.Event)">
+            <summary>
+            Обработка поступления задачи
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.SeizeChannel1_EventHandler(ModelingConsoleApp.Model.Event)">
+            <summary>
+            Обработка Занять канал 1
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.SeizeChannel2_EventHandler(ModelingConsoleApp.Model.Event)">
+            <summary>
+            Обработка Занять канал 2
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.SeizeChannelAll_EventHandler(ModelingConsoleApp.Model.Event)">
+            <summary>
+            Обработка Занять оба канала
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.ReleaseChannel1_EventHandler(ModelingConsoleApp.Model.Event)">
+            <summary>
+            Обработка Освободить канал 1
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.ReleaseChannel2_EventHandler(ModelingConsoleApp.Model.Event)">
+            <summary>
+            Обработка Освободить канал 2
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.ReleaseChannelAll_EventHandler(ModelingConsoleApp.Model.Event)">
+            <summary>
+            Обработка Освободить оба канала
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.StopModeling_EventHandler(ModelingConsoleApp.Model.Event)">
+            <summary>
+            Обработка поступления задачи
+            </summary>
+        </member>
         <member name="M:ModelingConsoleApp.Program.InitializationEvent">
             <summary>
              Инициализирующее событие
             </summary>
         </member>
-        <member name="M:ModelingConsoleApp.Program.GetEventCode">
+        <member name="M:ModelingConsoleApp.Program.GetEvent">
             <summary>
             Получение кода первого события в списке
             </summary>
         </member>
-        <member name="M:ModelingConsoleApp.Program.AddEventToList(System.Int32,System.Double,System.String)">
+        <member name="M:ModelingConsoleApp.Program.PlanEvent(System.Int32,System.Double,System.String)">
             <summary>
-            Добавление события в список
+            Добавление события в список (планирование)
             </summary>
         </member>
     </members>

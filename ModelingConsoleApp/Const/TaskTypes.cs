@@ -11,5 +11,7 @@ namespace ModelingConsoleApp.Const
         public const string ClassA = "A";
         public const string ClassB = "B";
         public const string ClassC = "C";
+
+        public static string[] ParallelCkasses = { ClassA, ClassB };
     }
 }
