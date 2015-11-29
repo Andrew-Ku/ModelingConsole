@@ -8,7 +8,9 @@ namespace ModelingConsoleApp.Const
 {
     public static class Channels
     {
-        public static int Channel1 = 1;
-        public static int Channel2 = 2;
+        public const int Channel1 = 1;
+        public const int Channel2 = 2;
+
+        public const int AllChannels = 12;
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ModelingConsoleApp.Const;
+using ModelingConsoleApp.Infrastructure;
 
 namespace ModelingConsoleApp.Model
 {
@@ -13,116 +14,109 @@ namespace ModelingConsoleApp.Model
         public Device(string name)
         {
             Name = name;
-            TaskQueue = new TaskQueue<TaskBase>();
-            IsAvailableChannel1 = true;
-            IsAvailableChannel2 = true;
-            Channels = new List<TaskBase>();
+            TaskQueue = new List<TaskBase>();
+            Channel1 = new Channel();
+            Channel2 = new Channel();
         }
 
-
-        //  private _channel
-
+        public  Channel Channel1 { get; set; }
+        public  Channel Channel2 { get; set; }
         public string Name { get; set; }
+        public List<TaskBase> TaskQueue { get; set; }
 
-        private List<TaskBase> Channels { get; set; }
+        public double TaskGenTimeSum { get; set; }
+        public int TaskReleaseCount { get; set; }
+        public int TaskWeightSum { get; set; }
+        public double QueueLengthSum { get; set; }
+        public double QueueTimeSum { get; set; }
 
+        /// <summary>
+        /// Освободить заданный канал
+        /// </summary>
+        public void Release(int channelNum = 12)
+        {
+            switch (channelNum)
+            {
+                case Channels.Channel1:
+                    TaskGenTimeSum += Program.ModelingTime - Channel1.CurrentTask.GenerateTime;
+                    QueueTimeSum += Channel1.CurrentTask.PopQueueTime - Channel1.CurrentTask.PushQueueTime;
+                    Channel1.CurrentTask = null;
+                    Channel1.IsAvailable = true;
+                    break;
+                case Channels.Channel2:
+                    TaskGenTimeSum += Program.ModelingTime - Channel2.CurrentTask.GenerateTime;
+                    QueueTimeSum += Channel2.CurrentTask.PopQueueTime - Channel2.CurrentTask.PushQueueTime;
+                    Channel2.CurrentTask = null;
+                    Channel2.IsAvailable = true;
+                    break;
+                case Channels.AllChannels:
+                    TaskGenTimeSum += Program.ModelingTime - Channel1.CurrentTask.GenerateTime;
+                    QueueTimeSum += Channel1.CurrentTask.PopQueueTime - Channel1.CurrentTask.PushQueueTime;
+                    Channel1.CurrentTask = null;
+                    Channel1.IsAvailable = true;
+                    Channel2.CurrentTask = null;
+                    Channel2.IsAvailable = true;
+                    break;
+                default:
+                    throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
+            }
 
+            TaskReleaseCount++; // Счетчик прошедших через систему задач
+        }
 
+        // Занять канал
+        public void Seize(TaskBase task, int channelNum)
+        {
+            switch (channelNum)
+            {
+                case Channels.Channel1:
+                    Channel1.CurrentTask = task;
+                    Channel1.IsAvailable = false;
+                    break;
+                case Channels.Channel2:
+                    Channel2.CurrentTask = task;
+                    Channel2.IsAvailable = false;
+                    break;
+                case Channels.AllChannels:
+                    if(task.Type!=TaskTypes.ClassC)
+                        throw new ArgumentException("Задача не может занимать оба канала одновременно" + Name);
+                    Channel1.CurrentTask = task;
+                    Channel1.IsAvailable = false;
+                    Channel2.CurrentTask = task;
+                    Channel2.IsAvailable = false;
+                    break;
+                default: throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
+            }
+        }
 
+        /// <summary>
+        /// Возвращает состояние канала True - свободен False - занят
+        /// </summary>
+        public bool IsChannelAvailable(int channelNum)
+        {
+            switch (channelNum)
+            {
+                case Channels.Channel1:
+                    return Channel1.IsAvailable;
+                case Channels.Channel2:
+                    return Channel2.IsAvailable;
+               default: throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
+            }
+        }
 
+        public double TasksAverageSystemTime
+        {
+            get { return TaskGenTimeSum / TaskReleaseCount; }
+        }
 
-        //public TaskBase Channel1
-        //{
-        //    get { return Channel1; }
-        //    set
-        //    {
-        //        Channel1 = value;
-        //        IsAvailableChannel1 = value == null;
-        //    }
-        //}
-        //public TaskBase Channel2
-        //{
-        //    get { return Channel2; }
-        //    set
-        //    {
-        //        Channel2 = value;
-        //        IsAvailableChannel2 = value == null;
-        //    }
-        //}
-        public DeviceInfo DeviceInfo { get; set; }
+        public double QueueLengthAverage
+        {
+            get { return QueueLengthSum / TaskBase.GenCount; }
+        }
 
-        // Очередь к устройству
-        public TaskQueue<TaskBase> TaskQueue { get; set; }
-
-        // Канал 1 свободен
-        public bool IsAvailableChannel1 { get; set; }
-
-        // Канал 2 свободен
-        public bool IsAvailableChannel2 { get; set; }
-
-        // Доступно ли устройство
-        public bool IsDeviceAvailable { get; set; }
-
-
-        // Освободить каналы
-        //public void Release()
-        //{
-        //    Channel1 = null;
-        //    Channel2 = null;
-        //}
-
-        // Освободить заданный канал
-        //public void Release(int channelNum)
-        //{
-        //    switch (channelNum)
-        //    {
-        //        case 1:
-        //            Channel1 = null;
-        //            break;
-        //        case 2:
-        //            Channel2 = null;
-        //            break;
-        //        default: throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
-        //    }
-        //}
-
-        // Занять устройство
-        //public void Seize(TaskBase task)
-        //{
-        //    if (TaskQueue.Count == 0)
-        //    {
-        //        if (task.Type == TaskTypes.ClassA || task.Type == TaskTypes.ClassB)
-        //        {
-        //            if (Channels.Count < 2)
-        //            {
-        //                Channels.Add(task);
-        //            }
-        //            else if (IsAvailableChannel2)
-        //            {
-        //                Channel2 = task;
-        //                IsAvailableChannel2 = false;
-        //            }
-        //            else
-        //            {
-        //                TaskQueue.Enqueue(task);
-        //            }
-        //        }
-        //        // Задача класса C занимает 2 канала
-        //        else
-        //        {
-        //            if (IsAvailableChannel1 && IsAvailableChannel2)
-        //            {
-        //                Channel1 = task;
-        //                Channel2 = task;
-        //                IsAvailableChannel1 = false;
-        //                IsAvailableChannel2 = false;
-        //            }
-        //            else
-        //            {
-        //                TaskQueue.Enqueue(task);
-        //            }
-        //        }
-        //    }
-       // }
+        public double QueueTimeAverage
+        {
+            get { return QueueTimeSum / TaskBase.OutQueueCount; }
+        }
     }
 }

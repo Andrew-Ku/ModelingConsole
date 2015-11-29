@@ -10,23 +10,21 @@ namespace ModelingConsoleApp.Model
 {
     public class TaskC : TaskBase
     {
-        public static int Count;
-        public static double TimeLine;
+        public static int CountC;
 
         public TaskC()
         {
-            Count++;
-            Id = Count;
+            GenCount++;
+            Id = GenCount;
             Type = TaskTypes.ClassC;
-            TimeLine += Generator.ExpDistribution(0.1);
-            GenerateTime = TimeLine;
+            GenerateTime = Program.ModelingTime;
             Priority = InputValues.PriorityC;
+            Weight = 3;
         }
 
         public static void ResetCountAndTimeLine()
         {
-            Count = 0;
-            TimeLine = 0;
+            GenCount = 0;
         }
     }
 

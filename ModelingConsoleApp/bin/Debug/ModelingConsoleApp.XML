@@ -126,6 +126,34 @@
             <param name="list"></param>
             <param name="val"></param>
         </member>
+        <member name="M:ModelingConsoleApp.Infrastructure.Extensions.AddTask(System.Collections.Generic.List{ModelingConsoleApp.Model.TaskBase},ModelingConsoleApp.Model.TaskBase)">
+            <summary>
+            Добавление задачи в очередь с отметкой времени добавления
+            </summary>
+            <param name="list"></param>
+            <param name="val"></param>
+        </member>
+        <member name="M:ModelingConsoleApp.Infrastructure.Extensions.RemoveFirstTask(System.Collections.Generic.List{ModelingConsoleApp.Model.TaskBase})">
+            <summary>
+            Удаления из оереди первого элемента со счетом
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:ModelingConsoleApp.Model.Device.Release(System.Int32)">
+            <summary>
+            Освободить заданный канал
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Model.Device.IsChannelAvailable(System.Int32)">
+            <summary>
+            Возвращает состояние канала True - свободен False - занят
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.TaskBase.GenerateTime">
+            <summary>
+            Время поступления задачи в систему
+            </summary>
+        </member>
         <member name="M:ModelingConsoleApp.Program.TaskGen_EventHandler(ModelingConsoleApp.Model.Event)">
             <summary>
             Обработка поступления задачи
