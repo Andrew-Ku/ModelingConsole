@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PommaLabs.Thrower">
+      <HintPath>..\packages\Thrower.2.0.1\lib\net45\PommaLabs.Thrower.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,13 +43,18 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Troschuetz.Random">
+      <HintPath>..\packages\Troschuetz.Random.4.0.3\lib\net45\Troschuetz.Random.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Const\Channels.cs" />
     <Compile Include="Const\EventCode.cs" />
     <Compile Include="Const\InputValues.cs" />
     <Compile Include="Const\TaskTypes.cs" />
     <Compile Include="Const\UseCases.cs" />
     <Compile Include="Infrastructure\EventDictionary.cs" />
+    <Compile Include="Infrastructure\Extensions.cs" />
     <Compile Include="Infrastructure\Generator.cs" />
     <Compile Include="Model\Device.cs" />
     <Compile Include="Model\DeviceInfo.cs" />
@@ -63,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

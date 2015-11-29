@@ -18,7 +18,7 @@ namespace ModelingConsoleApp.Infrastructure
                 case EventCode.StopModeling:
                     return "Завершение моделирования";
                 case EventCode.ReleaseChannel1:
-                    return "Освобождения канала 1";
+                    return "Освобождение канала 1";
                 case EventCode.ReleaseChannel2:
                     return "Освобождение канала 2";
                 case EventCode.ReleaseChannelAll:

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -31,33 +32,18 @@ namespace ModelingConsoleApp
         private static void Main(string[] args)
         {
             var modeling = true; // Флаг работы модели
-
             InitializationEvent(); // Инициализирующее событие
 
-            var iter = 0; // Для теста
-
-            while (iter < 100) // Основной цикл моделирования 
-            //   while (modeling) // Основной цикл моделирования 
+            while (modeling) // Основной цикл моделирования 
             {
                 var currentEvent = GetEvent();
-                EventDictionary.DisplayEvent(currentEvent.EventCode);
-                FileLines.Add(EventDictionary.GetValue(currentEvent.EventCode));
+                ModelingTime = currentEvent.EventTime;
+                Console.WriteLine(ModelingTime);
+                FileLines.AddWithTime(EventDictionary.GetValue(currentEvent.EventCode) + " - " + currentEvent.TaskType);
                 switch (currentEvent.EventCode)
                 {
                     case EventCode.TaskGen:
-                        Console.WriteLine(currentEvent.TaskType);
-                        FileLines.Add(currentEvent.TaskType);
                         TaskGen_EventHandler(currentEvent);
-                        break;
-
-                    case EventCode.SeizeChannel1:
-                        SeizeChannel1_EventHandler(currentEvent);
-                        break;
-                    case EventCode.SeizeChannel2:
-                        SeizeChannel2_EventHandler(currentEvent);
-                        break;
-                    case EventCode.SeizeChannelAll:
-                        SeizeChannelAll_EventHandler(currentEvent);
                         break;
                     case EventCode.ReleaseChannel1:
                         ReleaseChannel1_EventHandler(currentEvent);
@@ -68,31 +54,28 @@ namespace ModelingConsoleApp
                     case EventCode.ReleaseChannelAll:
                         ReleaseChannelAll_EventHandler(currentEvent);
                         break;
-
                     case EventCode.StopModeling:
                         StopModeling_EventHandler(currentEvent);
                         modeling = false;
                         break;
                 }
-
-                iter++;
-
-                //modeling = false; // Для теста
-
             }
-
-
 
             if (!File.Exists(FilePath))
             {
-                using ( File.Create(FilePath)){}
-                
-            }
-          //  c.Aggregate(new TimeSpan(), (sum, gr) =>sum.Add(gr.TimeCosts) вот так можно
-           // FileLines.Aggregate()
-            File.WriteAllLines(FilePath, FileLines);
+                using (File.Create(FilePath)) { }
 
-            Console.ReadKey();
+            }
+
+
+            Console.WriteLine("Задач А: {0}", TaskA.Count);
+            Console.WriteLine("Задач B: {0}", TaskB.Count);
+            Console.WriteLine("Задач C: {0}", TaskC.Count);
+
+            File.WriteAllLines(FilePath, FileLines);
+            Process.Start(FilePath);
+
+
         }
 
         /// <summary>
@@ -100,29 +83,46 @@ namespace ModelingConsoleApp
         /// </summary>
         public static void TaskGen_EventHandler(Event e)
         {
+            var task = GetTaskInstanceByType(e.TaskType);
+
+            var firsTaskQueue = TestQuery.OrderByDescending(t => t.Priority).FirstOrDefault();
+            var IsFirstTaskC = false;
+            if (firsTaskQueue != null)
+            {
+                IsFirstTaskC = firsTaskQueue.Type == TaskTypes.ClassC;
+            }
+
             if (TaskTypes.ParallelCkasses.Contains(e.TaskType)) // Задачи класса A и B
             {
-                if (IsFreeChannel1)
-                {
-                    IsFreeChannel1 = false;
-                    PlanEvent(EventCode.ReleaseChannel1, Generator.ExpDistribution(e.TaskType, GeneratorParametrs.Advance) + ModelingTime, e.TaskType);
-                }
-                else if (IsFreeChannel2)
-                {
-                    IsFreeChannel2 = false;
-                    PlanEvent(EventCode.ReleaseChannel2, Generator.ExpDistribution(e.TaskType, GeneratorParametrs.Advance) + ModelingTime, e.TaskType);
-                }
-                else
+                if (IsFirstTaskC || (!IsFreeChannel1 && !IsFreeChannel2))
                 {
                     switch (e.TaskType)
                     {
-                        case TaskTypes.ClassA: TestQuery.Add(new TaskA()); break;
-                        case TaskTypes.ClassB: TestQuery.Add(new TaskB()); break;
+                        case TaskTypes.ClassA:
+                            TestQuery.Add(task);
+                            break;
+                        case TaskTypes.ClassB:
+                            TestQuery.Add(task);
+                            break;
                     }
 
-                    Console.WriteLine("В очереди: {0}", TestQuery.Count);
-                    FileLines.Add(string.Format("В очереди: {0}", TestQuery.Count));
-                    // PlanEvent(EventCode.GetTaskFromQueue, TestQuery.Sum(x => x.GenerateTime), e.TaskType);  // !!! - Решить вопрос со временем
+                    FileLines.AddWithTime(string.Format("Задача {0} добавлена в очередь. В очереди {1} елемент(ов)",
+                        e.TaskType, TestQuery.Count));
+                }
+                else
+                {
+                    if (IsFreeChannel1)
+                    {
+                        IsFreeChannel1 = false;
+                        FileLines.AddWithTime("Занять канал 1 задачей " + e.TaskType);
+                        PlanEvent(EventCode.ReleaseChannel1, Generator.ExpDistribution(e.TaskType, GeneratorParametrs.Advance) + ModelingTime, e.TaskType);
+                    }
+                    else if (IsFreeChannel2)
+                    {
+                        IsFreeChannel2 = false;
+                        FileLines.AddWithTime("Занять канал 2 задачей " + e.TaskType);
+                        PlanEvent(EventCode.ReleaseChannel2, Generator.ExpDistribution(e.TaskType, GeneratorParametrs.Advance) + ModelingTime, e.TaskType);
+                    }
                 }
             }
             else // Задачи класса C
@@ -131,62 +131,27 @@ namespace ModelingConsoleApp
                 {
                     IsFreeChannel1 = false;
                     IsFreeChannel2 = false;
+                    FileLines.AddWithTime("Занять оба канала задачей " + e.TaskType);
 
                     PlanEvent(EventCode.ReleaseChannelAll, Generator.ExpDistribution(e.TaskType, GeneratorParametrs.Advance) + ModelingTime, e.TaskType);
                 }
-                else  /// !!! - подумать что делать, если занят хотябы один канал
+                else  
                 {
-                    TestQuery.Add(new TaskC());
+                    TestQuery.Add(task);
+                    FileLines.AddWithTime(string.Format("Задача {0} добавлена в очередь. В очереди {1} елемент(ов)", e.TaskType, TestQuery.Count));
                 }
             }
 
-            ModelingTime = Generator.ExpDistribution(e.TaskType, GeneratorParametrs.Generation) + ModelingTime;
-
-            PlanEvent(EventCode.TaskGen, ModelingTime, e.TaskType);
+            PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(e.TaskType, GeneratorParametrs.Generation) + ModelingTime, e.TaskType);
         }
 
-        /// <summary>
-        /// Обработка Занять канал 1
-        /// </summary>
-        public static void SeizeChannel1_EventHandler(Event e)
-        {
 
-        }
-        /// <summary>
-        /// Обработка Занять канал 2
-        /// </summary>
-        public static void SeizeChannel2_EventHandler(Event e)
-        {
-
-        }
-        /// <summary>
-        /// Обработка Занять оба канала
-        /// </summary>
-        public static void SeizeChannelAll_EventHandler(Event e)
-        {
-
-        }
         /// <summary>
         /// Обработка Освободить канал 1
         /// </summary>
-        public static void ReleaseChannel1_EventHandler(Event e)  // !!! - Объединить два обработчика 
+        public static void ReleaseChannel1_EventHandler(Event e) 
         {
-            TestQuery = TestQuery.OrderByDescending(t => t.Priority).ToList(); // Без  этого лучше работает (Не сортируем по приоритетам) 
-            var firstTask = TestQuery.FirstOrDefault();
-
-            if (firstTask == null)
-            {
-                IsFreeChannel1 = true;
-                return;
-            }
-
-            if (firstTask.Type == TaskTypes.ClassC) return;
-
-            TestQuery.RemoveAt(0);
-            Console.WriteLine("Берем из очереди");
-            FileLines.Add("Берем из очереди");
-            PlanEvent(EventCode.ReleaseChannel1, Generator.ExpDistribution(firstTask.Type, GeneratorParametrs.Advance) + ModelingTime, firstTask.Type);
-            IsFreeChannel1 = false; // Скорее всего излишнее , т.к. мы не освобождали канал
+            ReleaseChannel(Channels.Channel1);
         }
 
         /// <summary>
@@ -194,42 +159,121 @@ namespace ModelingConsoleApp
         /// </summary>
         public static void ReleaseChannel2_EventHandler(Event e)
         {
-            TestQuery = TestQuery.OrderByDescending(t => t.Priority).ToList(); // Без  этого лучше работает (Не сортируем по приоритетам) 
+            ReleaseChannel(Channels.Channel2);
+        }
+
+        private static void ReleaseChannel(int channelNum)
+        {
+            TestQuery = TestQuery.OrderByDescending(t => t.Priority).ToList(); 
             var firstTask = TestQuery.FirstOrDefault();
 
             if (firstTask == null)
             {
-                IsFreeChannel2 = true;
+                if (channelNum == Channels.Channel2)
+                    IsFreeChannel2 = true;
+                else
+                    IsFreeChannel1 = true;
                 return;
             }
 
-            if (firstTask.Type == TaskTypes.ClassC) return;
+            if (firstTask.Type == TaskTypes.ClassC)
+            {
+                bool IsFreeChannel;
+
+                if (channelNum == Channels.Channel2)
+                {
+                    IsFreeChannel2 = true;
+                    IsFreeChannel = IsFreeChannel1;
+                }
+                else
+                {
+                    IsFreeChannel1 = true;
+                    IsFreeChannel = IsFreeChannel2;
+                }
+
+                if (IsFreeChannel)
+                {
+                    TestQuery.RemoveAt(0);
+                    FileLines.AddWithTime("Берем из очереди задачу " + firstTask.Type + ". Занимаем оба канала");
+
+                    IsFreeChannel1 = false;
+                    IsFreeChannel2 = false;
+
+                    PlanEvent(EventCode.ReleaseChannelAll, Generator.ExpDistribution(firstTask.Type, GeneratorParametrs.Advance) + ModelingTime, firstTask.Type);
+                    return;
+                }
+
+                FileLines.AddWithTime(String.Format("Задача С первая в ожидании. Канал 1 - {0}. Канал 2 - {1}", IsFreeChannel1 ? "Свободен" : "Занят", IsFreeChannel2 ? "Свободен" : "Занят"));
+                return;
+            }
 
             TestQuery.RemoveAt(0);
-            Console.WriteLine("Берем из очереди " + firstTask.Type);
-            FileLines.Add("Берем из очереди " + firstTask.Type);
-            PlanEvent(EventCode.ReleaseChannel2, Generator.ExpDistribution(firstTask.Type, GeneratorParametrs.Advance) + ModelingTime, firstTask.Type);
-            IsFreeChannel2 = false; // Скорее всего излишнее , т.к. мы не освобождали канал
+
+            FileLines.AddWithTime("Берем из очереди задачу " + firstTask.Type + ". Занимаем канал " + channelNum);
+            var eventCode = channelNum == Channels.Channel2 ? EventCode.ReleaseChannel2 : EventCode.ReleaseChannel1;
+            PlanEvent(eventCode, Generator.ExpDistribution(firstTask.Type, GeneratorParametrs.Advance) + ModelingTime, firstTask.Type);
+
         }
+
         /// <summary>
         /// Обработка Освободить оба канала
         /// </summary>
         public static void ReleaseChannelAll_EventHandler(Event e)
         {
+            TestQuery = TestQuery.OrderByDescending(t => t.Priority).ToList(); // Без  этого лучше работает (Не сортируем по приоритетам) 
+            var firstTask = TestQuery.FirstOrDefault();
 
-            IsFreeChannel1 = true;
-            IsFreeChannel2 = true;
+            if (firstTask == null) // В очереди нет задач
+            {
+                IsFreeChannel1 = true;
+                IsFreeChannel2 = true;
+                return;
+            }
 
+            if (firstTask.Type != TaskTypes.ClassC) // В очереди задача класса А или Б
+            {
+                TestQuery.RemoveAt(0);
+                FileLines.AddWithTime("Берем из очереди задачу " + firstTask.Type + ". Занимаем канал 1");
+                PlanEvent(EventCode.ReleaseChannel1,
+                    Generator.ExpDistribution(firstTask.Type, GeneratorParametrs.Advance) + ModelingTime, firstTask.Type);
 
+                var secondTask = TestQuery.FirstOrDefault(); // Берем вторую задачу из очереди
 
+                if (secondTask == null)
+                {
+                    IsFreeChannel2 = true;
+                    return;
+                }
 
+                if (secondTask.Type == TaskTypes.ClassC)
+                {
+                    FileLines.AddWithTime("Нехватает каналов для задачи класса С");
+                    return;
+                }
+
+                TestQuery.RemoveAt(0);
+                FileLines.AddWithTime("Берем из очереди задачу " + secondTask.Type + ". Занимаем канал 2");
+                PlanEvent(EventCode.ReleaseChannel2,
+                    Generator.ExpDistribution(secondTask.Type, GeneratorParametrs.Advance) + ModelingTime,
+                    secondTask.Type);
+            }
+            else
+            {
+                TestQuery.RemoveAt(0);
+                FileLines.AddWithTime("Берем из очереди задачу " + firstTask.Type + ". Занимаем оба канала");
+                PlanEvent(EventCode.ReleaseChannelAll,
+                    Generator.ExpDistribution(firstTask.Type, GeneratorParametrs.Advance) + ModelingTime,
+                    firstTask.Type);
+            }
         }
+
         /// <summary>
         /// Обработка поступления задачи
         /// </summary>
         public static void StopModeling_EventHandler(Event e)
         {
-
+            Console.WriteLine("Конец моделирования");
+            Console.WriteLine("Время моделирования: " + ModelingTime);
         }
 
 
@@ -240,10 +284,11 @@ namespace ModelingConsoleApp
         {
             PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(TaskTypes.ClassA, GeneratorParametrs.Generation), TaskTypes.ClassA);
             PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(TaskTypes.ClassB, GeneratorParametrs.Generation), TaskTypes.ClassB);
-            //PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(TaskTypes.ClassC, GeneratorParametrs.Generation), TaskTypes.ClassC);
+            PlanEvent(EventCode.TaskGen, Generator.ExpDistribution(TaskTypes.ClassC, GeneratorParametrs.Generation), TaskTypes.ClassC);
+            PlanEvent(EventCode.StopModeling, InputValues.ModelingTimeForSystem);
 
             EventList.OrderBy(e => e.EventTime);
-            ModelingTime = EventList.Last().EventTime; // Задаем модельное время последним событием (Значит обязательно выполнятся первые три события. Это не очень правильно)
+            //   ModelingTime = EventList.Last().EventTime; // Задаем модельное время последним событием (Значит обязательно выполнятся первые три события. Это не очень правильно)
         }
 
         /// <summary>
@@ -261,7 +306,7 @@ namespace ModelingConsoleApp
         /// <summary>
         /// Добавление события в список (планирование)
         /// </summary>
-        public static void PlanEvent(int eventCode, double eventTime, string taskType)
+        public static void PlanEvent(int eventCode, double eventTime, string taskType = "")
         {
             EventList.Add(new Event
             {
@@ -269,6 +314,17 @@ namespace ModelingConsoleApp
                 EventTime = eventTime,
                 TaskType = taskType
             });
+        }
+
+        private static TaskBase GetTaskInstanceByType(string taskType)
+        {
+            switch (taskType)
+            {
+                case TaskTypes.ClassA: return new TaskA();
+                case TaskTypes.ClassB: return new TaskB();
+                case TaskTypes.ClassC: return new TaskC();
+            }
+           throw new NotImplementedException();
         }
     }
 }

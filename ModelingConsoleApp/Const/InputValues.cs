@@ -21,7 +21,7 @@ namespace ModelingConsoleApp.Const
         /// <summary>
         /// Время моделирования
         /// </summary>
-        public static double ModelingTimeForSystem = 2000;
+        public static double ModelingTimeForSystem = 600.0;
 
         /// <summary>
         /// Параметр бета для экспоненциального распределения задач класса A
@@ -36,7 +36,7 @@ namespace ModelingConsoleApp.Const
         /// <summary>
         /// Параметр бета для экспоненциального распределения задач класса C
         /// </summary>
-        public static double BetaC = 0.1;
+        public static double BetaC = 0.5;
 
         /// <summary>
         /// Параметр бета для времени обслуживания задач класса A
@@ -56,17 +56,17 @@ namespace ModelingConsoleApp.Const
         /// <summary>
         /// Параметр бета для времени обслуживания задач класса A
         /// </summary>
-        public static int PriorityA = 1;
+        public static int PriorityA = 2;
 
         /// <summary>
         /// Параметр бета для времени обслуживания задач класса B
         /// </summary>
-        public static int PriorityB = 2;
+        public static int PriorityB = 3;
 
         /// <summary>
         /// Параметр бета для времени обслуживания задач класса C
         /// </summary>
-        public static int PriorityC = 3;
+        public static int PriorityC = 1;
 
     }
 }

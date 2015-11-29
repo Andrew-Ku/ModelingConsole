@@ -25,7 +25,7 @@ namespace ModelingConsoleApp.Infrastructure
             {
                 var rand = NextRandomDouble();
                 var val = -beta * Math.Log(Math.E, rand);
-                if (val > 5)
+                if (val > 1)
                     continue;
                 return val;
             }
@@ -76,7 +76,7 @@ namespace ModelingConsoleApp.Infrastructure
             {
                 var rand = NextRandomDouble();
                 var val = -beta * Math.Log(Math.E, rand);
-                if (val > 5)
+                if (val > 1)
                     continue;
                 return val;
             }

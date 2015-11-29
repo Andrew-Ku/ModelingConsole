@@ -119,24 +119,16 @@
              Для задержки при обслуживании
             </summary>
         </member>
+        <member name="M:ModelingConsoleApp.Infrastructure.Extensions.AddWithTime(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            Добавление в список со временем моделирования
+            </summary>
+            <param name="list"></param>
+            <param name="val"></param>
+        </member>
         <member name="M:ModelingConsoleApp.Program.TaskGen_EventHandler(ModelingConsoleApp.Model.Event)">
             <summary>
             Обработка поступления задачи
-            </summary>
-        </member>
-        <member name="M:ModelingConsoleApp.Program.SeizeChannel1_EventHandler(ModelingConsoleApp.Model.Event)">
-            <summary>
-            Обработка Занять канал 1
-            </summary>
-        </member>
-        <member name="M:ModelingConsoleApp.Program.SeizeChannel2_EventHandler(ModelingConsoleApp.Model.Event)">
-            <summary>
-            Обработка Занять канал 2
-            </summary>
-        </member>
-        <member name="M:ModelingConsoleApp.Program.SeizeChannelAll_EventHandler(ModelingConsoleApp.Model.Event)">
-            <summary>
-            Обработка Занять оба канала
             </summary>
         </member>
         <member name="M:ModelingConsoleApp.Program.ReleaseChannel1_EventHandler(ModelingConsoleApp.Model.Event)">
