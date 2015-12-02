@@ -39,14 +39,14 @@
             Освободить все каналы
             </summary>
         </member>
-        <member name="F:ModelingConsoleApp.Const.EventCode.GetTaskFromQueue">
-            <summary>
-            Добавить задачу в очередь
-            </summary>
-        </member>
         <member name="F:ModelingConsoleApp.Const.EventCode.StopModeling">
             <summary>
             Окончание моделирования
+            </summary>
+        </member>
+        <member name="T:ModelingConsoleApp.Const.InputValues">
+            <summary>
+            Входные данные для моделирования
             </summary>
         </member>
         <member name="F:ModelingConsoleApp.Const.InputValues.TaskCountForGlobalList">
@@ -109,6 +109,11 @@
             Параметр бета для времени обслуживания задач класса C
             </summary>
         </member>
+        <member name="T:ModelingConsoleApp.Const.TaskTypes">
+            <summary>
+            Константы для типов задач
+            </summary>
+        </member>
         <member name="F:ModelingConsoleApp.Const.GeneratorParametrs.Generation">
             <summary>
              Для генерации
@@ -151,6 +156,21 @@
             Удаления из оереди первого элемента со счетом
             </summary>
             <param name="list"></param>
+        </member>
+        <member name="T:ModelingConsoleApp.Model.Channel">
+            <summary>
+            Канал
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.Channel.CurrentTask">
+            <summary>
+            Текущая задача в канале
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.Channel.IsAvailable">
+            <summary>
+            Свободен ли канал
+            </summary>
         </member>
         <member name="T:ModelingConsoleApp.Model.Device">
             <summary>

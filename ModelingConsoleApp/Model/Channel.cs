@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModelingConsoleApp.Model
 {
+    /// <summary>
+    /// Канал
+    /// </summary>
     public class Channel
     {
         public Channel()
@@ -14,7 +17,14 @@ namespace ModelingConsoleApp.Model
             IsAvailable = true;
         }
 
+        /// <summary>
+        /// Текущая задача в канале
+        /// </summary>
         public TaskBase CurrentTask { get; set; }
+
+        /// <summary>
+        /// Свободен ли канал
+        /// </summary>
         public bool IsAvailable { get; set; }
 
     }

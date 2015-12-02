@@ -27,7 +27,7 @@ namespace ModelingConsoleApp
         {
             var modeling = true; // Флаг работы модели
             InitializationEvent(); // Инициализирующее событие
-           
+
             while (modeling) // Основной цикл моделирования 
             {
                 var currentEvent = GetEvent();
@@ -58,10 +58,9 @@ namespace ModelingConsoleApp
             if (!File.Exists(FilePath))
             {
                 using (File.Create(FilePath)) { }
-
             }
 
-         //   StatisticsDisplay();
+            //   StatisticsDisplay();
             StatisticsDisplayColor(ConsoleColor.Green);
 
             File.WriteAllLines(FilePath, FileLines);
@@ -319,7 +318,7 @@ namespace ModelingConsoleApp
                 case TaskTypes.ClassB: return new TaskB();
                 case TaskTypes.ClassC: return new TaskC();
             }
-            throw new NotImplementedException();
+            throw new ArgumentException("Невозможно создать задачу типа " + taskType);
         }
 
         /// <summary>
@@ -341,40 +340,22 @@ namespace ModelingConsoleApp
         private static void StatisticsDisplayColor(ConsoleColor color)
         {
             Console.WriteLine("------------------------------");
-            Console.Write("Задач сгенерированно: ");
-            Console.ForegroundColor = color;
-            Console.WriteLine(TaskBase.GenCount);
+            DipslayStatisricItem("Задач сгенерированно", TaskBase.GenCount, color);
+            DipslayStatisricItem("Задач прошло через систему", Device.TaskReleaseCount, color);
+            DipslayStatisricItem("Средняя длительность прохождения задач через систему", Device.TasksAverageSystemTime, color);
+            DipslayStatisricItem("Очередь устройтсва", Device.TaskQueue.Count, color);
+            DipslayStatisricItem("Средняя длина очереди устройтсва", Device.QueueLengthAverage, color);
+            DipslayStatisricItem("Среднее время ожидания в очереди", Device.QueueTimeAverage, color);
+            DipslayStatisricItem("Средневзвешенное время ожидания в очереди", Device.QueueWeightTimeAverage, color);
 
+        }
 
+        private static void DipslayStatisricItem(string str, object paramert, ConsoleColor color)
+        {
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write("Задач прошло через систему: ");
+            Console.Write(str + ": ");
             Console.ForegroundColor = color;
-            Console.WriteLine(Device.TaskReleaseCount);
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write("Средняя длительность прохождения задач через систему: ");
-            Console.ForegroundColor = color;
-            Console.WriteLine(Device.TasksAverageSystemTime);
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write("Очередь устройтсва: ");
-            Console.ForegroundColor = color;
-            Console.WriteLine(Device.TaskQueue.Count);
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write("Средняя длина очереди устройтсва: ");
-            Console.ForegroundColor = color;
-            Console.WriteLine(Device.QueueLengthAverage);
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write("Среднее время ожидания в очереди: ");
-            Console.ForegroundColor = color;
-            Console.WriteLine(Device.QueueTimeAverage);
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write("Средневзвешенное время ожидания в очереди: ");
-            Console.ForegroundColor = color;
-            Console.WriteLine(Device.QueueWeightTimeAverage);
+            Console.WriteLine(paramert);
         }
 
     }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModelingConsoleApp.Const
 {
+    /// <summary>
+    /// Константы для типов задач
+    /// </summary>
     public static class TaskTypes
     {
         public const string ClassA = "A";

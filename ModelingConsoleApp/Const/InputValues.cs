@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModelingConsoleApp.Const
 {
+    /// <summary>
+    /// Входные данные для моделирования
+    /// </summary>
     public static  class InputValues
     {
         /// <summary>

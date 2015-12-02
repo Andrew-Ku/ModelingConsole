@@ -45,12 +45,6 @@ namespace ModelingConsoleApp.Const
         public const int ReleaseChannelAll = 7;
 
         /// <summary>
-        /// Добавить задачу в очередь
-        /// </summary>
-        public const int GetTaskFromQueue = 8;
-
-
-        /// <summary>
         /// Окончание моделирования
         /// </summary>
         public const int StopModeling = 100;

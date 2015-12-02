@@ -19,7 +19,7 @@ namespace ModelingConsoleApp.Infrastructure
             switch (key)
             {
                 case EventCode.TaskGen:
-                    return "Поступление заявки";
+                    return "Поступление задачи";
                 case EventCode.StopModeling:
                     return "Завершение моделирования";
                 case EventCode.ReleaseChannel1:
@@ -28,8 +28,6 @@ namespace ModelingConsoleApp.Infrastructure
                     return "Освобождение канала 2";
                 case EventCode.ReleaseChannelAll:
                     return "Освобожения всех каналов";
-                case EventCode.GetTaskFromQueue:
-                    return "Получение задачи из очереди";
                 default:
                     return "Неизвестное событие!";
             }
