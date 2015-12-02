@@ -22,8 +22,8 @@ namespace ModelingConsoleApp.Model
             Channel2 = new Channel();
         }
 
-        public  Channel Channel1 { get; set; }
-        public  Channel Channel2 { get; set; }
+        public Channel Channel1 { get; set; }
+        public Channel Channel2 { get; set; }
         public string Name { get; set; }
         public List<TaskBase> TaskQueue { get; set; }
 
@@ -72,7 +72,7 @@ namespace ModelingConsoleApp.Model
             }
             catch (Exception e)
             {
-                Console.WriteLine("Ошибка с каналами. Канал 1 - {0}, Канал 2 - {1}. Пытается осободить канал {2} ",Channel1.IsAvailable);
+                Console.WriteLine("Ошибка с каналами. Канал 1 - {0}, Канал 2 - {1}. Пытается осободить канал {2} ", Channel1.IsAvailable, Channel2.IsAvailable, channelNum);
             }
 
             TaskReleaseCount++; // Счетчик прошедших через систему задач
@@ -96,7 +96,7 @@ namespace ModelingConsoleApp.Model
                     Channel2.IsAvailable = false;
                     break;
                 case Channels.AllChannels:
-                    if(task.Type!=TaskTypes.ClassC)
+                    if (task.Type != TaskTypes.ClassC)
                         throw new ArgumentException("Задача не может занимать оба канала одновременно" + Name);
                     Channel1.CurrentTask = task;
                     Channel1.IsAvailable = false;
@@ -118,7 +118,7 @@ namespace ModelingConsoleApp.Model
                     return Channel1.IsAvailable;
                 case Channels.Channel2:
                     return Channel2.IsAvailable;
-               default: throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
+                default: throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
             }
         }
         /// <summary>
