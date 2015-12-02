@@ -18,3 +18,9 @@ C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingCo
 C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\bin\Debug\PommaLabs.Thrower.xml
 C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\bin\Debug\Troschuetz.Random.pdb
 C:\Users\Andrew\Documents\Visual Studio 2013\Projects\ModelingConsole\ModelingConsoleApp\bin\Debug\Troschuetz.Random.xml
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\PommaLabs.Thrower.dll
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\Troschuetz.Random.dll
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\PommaLabs.Thrower.pdb
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\PommaLabs.Thrower.xml
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\Troschuetz.Random.pdb
+C:\Project\Tests\ModelingConsoleApp\ModelingConsoleApp\bin\Debug\Troschuetz.Random.xml

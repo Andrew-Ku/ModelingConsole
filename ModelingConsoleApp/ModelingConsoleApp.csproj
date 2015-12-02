@@ -59,20 +59,18 @@
     <Compile Include="Infrastructure\Generator.cs" />
     <Compile Include="Model\Channel.cs" />
     <Compile Include="Model\Device.cs" />
-    <Compile Include="Model\DeviceInfo.cs" />
     <Compile Include="Model\Event.cs" />
-    <Compile Include="Model\QueryInfo.cs" />
     <Compile Include="Model\TaskA.cs" />
     <Compile Include="Model\TaskB.cs" />
     <Compile Include="Model\TaskBase.cs" />
     <Compile Include="Model\TaskC.cs" />
-    <Compile Include="Model\TaskInfo.cs" />
-    <Compile Include="Model\TaskQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

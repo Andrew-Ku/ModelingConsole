@@ -139,14 +139,46 @@
             </summary>
             <param name="list"></param>
         </member>
+        <member name="T:ModelingConsoleApp.Model.Device">
+            <summary>
+            Устройство
+            </summary>
+        </member>
         <member name="M:ModelingConsoleApp.Model.Device.Release(System.Int32)">
             <summary>
             Освободить заданный канал
             </summary>
         </member>
+        <member name="M:ModelingConsoleApp.Model.Device.Seize(ModelingConsoleApp.Model.TaskBase,System.Int32)">
+            <summary>
+            Занять канал задачей
+            </summary>
+            <param name="task"></param>
+            <param name="channelNum"></param>
+        </member>
         <member name="M:ModelingConsoleApp.Model.Device.IsChannelAvailable(System.Int32)">
             <summary>
             Возвращает состояние канала True - свободен False - занят
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.Device.TasksAverageSystemTime">
+            <summary>
+            Среднее время прохождения задачи через систему
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.Device.QueueLengthAverage">
+            <summary>
+            Средняя длина очереди
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.Device.QueueTimeAverage">
+            <summary>
+            Среднее время ожидания в очереди
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.Device.QueueWeightTimeAverage">
+            <summary>
+            Средневзвешенное время ожидания в очереди 
             </summary>
         </member>
         <member name="P:ModelingConsoleApp.Model.TaskBase.GenerateTime">

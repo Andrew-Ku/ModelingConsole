@@ -9,6 +9,9 @@ using ModelingConsoleApp.Infrastructure;
 
 namespace ModelingConsoleApp.Model
 {
+    /// <summary>
+    /// Устройство
+    /// </summary>
     public class Device
     {
         public Device(string name)
@@ -29,42 +32,57 @@ namespace ModelingConsoleApp.Model
         public int TaskWeightSum { get; set; }
         public double QueueLengthSum { get; set; }
         public double QueueTimeSum { get; set; }
+        public double QueueWeightTimeSum { get; set; }
 
         /// <summary>
         /// Освободить заданный канал
         /// </summary>
         public void Release(int channelNum = 12)
         {
-            switch (channelNum)
+            try
             {
-                case Channels.Channel1:
-                    TaskGenTimeSum += Program.ModelingTime - Channel1.CurrentTask.GenerateTime;
-                    QueueTimeSum += Channel1.CurrentTask.PopQueueTime - Channel1.CurrentTask.PushQueueTime;
-                    Channel1.CurrentTask = null;
-                    Channel1.IsAvailable = true;
-                    break;
-                case Channels.Channel2:
-                    TaskGenTimeSum += Program.ModelingTime - Channel2.CurrentTask.GenerateTime;
-                    QueueTimeSum += Channel2.CurrentTask.PopQueueTime - Channel2.CurrentTask.PushQueueTime;
-                    Channel2.CurrentTask = null;
-                    Channel2.IsAvailable = true;
-                    break;
-                case Channels.AllChannels:
-                    TaskGenTimeSum += Program.ModelingTime - Channel1.CurrentTask.GenerateTime;
-                    QueueTimeSum += Channel1.CurrentTask.PopQueueTime - Channel1.CurrentTask.PushQueueTime;
-                    Channel1.CurrentTask = null;
-                    Channel1.IsAvailable = true;
-                    Channel2.CurrentTask = null;
-                    Channel2.IsAvailable = true;
-                    break;
-                default:
-                    throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
+                switch (channelNum)
+                {
+                    case Channels.Channel1:
+                        TaskGenTimeSum += Program.ModelingTime - Channel1.CurrentTask.GenerateTime;
+                        QueueTimeSum += Channel1.CurrentTask.PopQueueTime - Channel1.CurrentTask.PushQueueTime;
+                        QueueWeightTimeSum += (Channel1.CurrentTask.PopQueueTime - Channel1.CurrentTask.PushQueueTime) * Channel1.CurrentTask.Weight;
+                        Channel1.CurrentTask = null;
+                        Channel1.IsAvailable = true;
+                        break;
+                    case Channels.Channel2:
+                        TaskGenTimeSum += Program.ModelingTime - Channel2.CurrentTask.GenerateTime;
+                        QueueTimeSum += Channel2.CurrentTask.PopQueueTime - Channel2.CurrentTask.PushQueueTime;
+                        QueueWeightTimeSum += (Channel2.CurrentTask.PopQueueTime - Channel2.CurrentTask.PushQueueTime) * Channel2.CurrentTask.Weight;
+                        Channel2.CurrentTask = null;
+                        Channel2.IsAvailable = true;
+                        break;
+                    case Channels.AllChannels:
+                        TaskGenTimeSum += Program.ModelingTime - Channel1.CurrentTask.GenerateTime;
+                        QueueTimeSum += Channel1.CurrentTask.PopQueueTime - Channel1.CurrentTask.PushQueueTime;
+                        QueueWeightTimeSum += (Channel1.CurrentTask.PopQueueTime - Channel1.CurrentTask.PushQueueTime) * Channel1.CurrentTask.Weight;
+                        Channel1.CurrentTask = null;
+                        Channel1.IsAvailable = true;
+                        Channel2.CurrentTask = null;
+                        Channel2.IsAvailable = true;
+                        break;
+                    default:
+                        throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Ошибка с каналами. Канал 1 - {0}, Канал 2 - {1}. Пытается осободить канал {2} ",Channel1.IsAvailable);
             }
 
             TaskReleaseCount++; // Счетчик прошедших через систему задач
         }
 
-        // Занять канал
+        /// <summary>
+        /// Занять канал задачей
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="channelNum"></param>
         public void Seize(TaskBase task, int channelNum)
         {
             switch (channelNum)
@@ -103,20 +121,33 @@ namespace ModelingConsoleApp.Model
                default: throw new ArgumentException("Недопустимый номер канала для устройства" + Name);
             }
         }
-
+        /// <summary>
+        /// Среднее время прохождения задачи через систему
+        /// </summary>
         public double TasksAverageSystemTime
         {
             get { return TaskGenTimeSum / TaskReleaseCount; }
         }
-
+        /// <summary>
+        /// Средняя длина очереди
+        /// </summary>
         public double QueueLengthAverage
         {
             get { return QueueLengthSum / TaskBase.GenCount; }
         }
-
+        /// <summary>
+        /// Среднее время ожидания в очереди
+        /// </summary>
         public double QueueTimeAverage
         {
             get { return QueueTimeSum / TaskBase.OutQueueCount; }
+        }
+        /// <summary>
+        /// Средневзвешенное время ожидания в очереди 
+        /// </summary>
+        public double QueueWeightTimeAverage
+        {
+            get { return QueueWeightTimeSum / TaskBase.OutQueueWeightCount; }
         }
     }
 }

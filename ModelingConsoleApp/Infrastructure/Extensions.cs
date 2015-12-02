@@ -37,6 +37,9 @@ namespace ModelingConsoleApp.Infrastructure
         public static void RemoveFirstTask(this List<TaskBase> list)
         {
             TaskBase.OutQueueCount++;
+            var task = list.First();
+            TaskBase.OutQueueWeightCount+=task.Weight;
+
             list.RemoveAt(0);
         }
     }

@@ -61,15 +61,7 @@ namespace ModelingConsoleApp
 
             }
 
-            Console.WriteLine("------------------------------");
-            Console.WriteLine("Задач сгенерированно: {0}", TaskBase.GenCount);
-            Console.WriteLine("Задач прошло через систему: {0}", Device.TaskReleaseCount);
-            Console.WriteLine("Средняя длительность прохождения задач через систему: {0}", Device.TasksAverageSystemTime);
-       
-            Console.WriteLine("Очередь устройтсва: {0}", Device.TaskQueue.Count);
-            Console.WriteLine("Средняя длина очереди устройтсва: {0}", Device.QueueLengthAverage);
-            Console.WriteLine("Суммарная длина очереди устройтсва: {0}", Device.QueueLengthSum);
-            Console.WriteLine("Среднее время ожидания в очереди: {0}", Device.QueueTimeAverage);
+            StatisticsDisplay();
 
             File.WriteAllLines(FilePath, FileLines);
             Process.Start(FilePath);
@@ -314,6 +306,11 @@ namespace ModelingConsoleApp
             });
         }
 
+        /// <summary>
+        /// Получение экземпляра события соответсвующего типа
+        /// </summary>
+        /// <param name="taskType"></param>
+        /// <returns></returns>
         private static TaskBase GetTaskInstanceByType(string taskType)
         {
             switch (taskType)
@@ -324,5 +321,23 @@ namespace ModelingConsoleApp
             }
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Вывод статистики
+        /// </summary>
+        private static void StatisticsDisplay()
+        {
+            Console.WriteLine("------------------------------");
+            Console.WriteLine("Задач сгенерированно: {0}", TaskBase.GenCount);
+            Console.WriteLine("Задач прошло через систему: {0}", Device.TaskReleaseCount);
+            Console.WriteLine("Средняя длительность прохождения задач через систему: {0}", Device.TasksAverageSystemTime);
+
+            Console.WriteLine("Очередь устройтсва: {0}", Device.TaskQueue.Count);
+            Console.WriteLine("Средняя длина очереди устройтсва: {0}", Device.QueueLengthAverage);
+            Console.WriteLine("Суммарная длина очереди устройтсва: {0}", Device.QueueLengthSum);
+            Console.WriteLine("Среднее время ожидания в очереди: {0}", Device.QueueTimeAverage);
+            Console.WriteLine("Средневзвешанное время ожидания в очереди: {0}", Device.QueueWeightTimeAverage);
+        }
+
     }
 }

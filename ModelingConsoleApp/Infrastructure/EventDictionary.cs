@@ -9,6 +9,11 @@ namespace ModelingConsoleApp.Infrastructure
 {
     public static class EventDictionary
     {
+        /// <summary>
+        /// Получение названия события
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public static string GetValue(int key)
         {
             switch (key)
@@ -30,9 +35,12 @@ namespace ModelingConsoleApp.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Вывод названия события 
+        /// </summary>
+        /// <param name="eventCode"></param>
         public static void DisplayEvent(int eventCode)
         {
-            Console.WriteLine("---------------------------");
             Console.WriteLine(GetValue(eventCode));
         }
     }

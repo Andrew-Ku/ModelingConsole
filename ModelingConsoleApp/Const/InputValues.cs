@@ -21,7 +21,7 @@ namespace ModelingConsoleApp.Const
         /// <summary>
         /// Время моделирования
         /// </summary>
-        public static double ModelingTimeForSystem = 6.4;
+        public static double ModelingTimeForSystem = 10.4;
 
         /// <summary>
         /// Параметр бета для экспоненциального распределения задач класса A
