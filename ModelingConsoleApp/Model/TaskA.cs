@@ -10,7 +10,7 @@ namespace ModelingConsoleApp.Model
 {
     public class TaskA : TaskBase
     {
-        public static int CountC;
+        public static int CountA;
 
         public TaskA()
         {

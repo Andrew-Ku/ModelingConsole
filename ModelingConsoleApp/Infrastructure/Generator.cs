@@ -66,7 +66,7 @@ namespace ModelingConsoleApp.Infrastructure
                         break;
 
                     case TaskTypes.ClassC:
-                        beta = InputValues.BetaC;
+                        beta = InputValues.BetaAdvanceC;
                         break;
                 }
             }

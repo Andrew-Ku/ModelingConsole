@@ -27,7 +27,7 @@ namespace ModelingConsoleApp
         {
             var modeling = true; // Флаг работы модели
             InitializationEvent(); // Инициализирующее событие
-
+           
             while (modeling) // Основной цикл моделирования 
             {
                 var currentEvent = GetEvent();
@@ -61,7 +61,8 @@ namespace ModelingConsoleApp
 
             }
 
-            StatisticsDisplay();
+         //   StatisticsDisplay();
+            StatisticsDisplayColor(ConsoleColor.Green);
 
             File.WriteAllLines(FilePath, FileLines);
             Process.Start(FilePath);
@@ -168,7 +169,7 @@ namespace ModelingConsoleApp
             if (firstTask.Type == TaskTypes.ClassC)
             {
                 Device.IsChannelAvailable(channelNum);
-                var isFreeAnotherChannel = channelNum == Channels.Channel2 ? Device.IsChannelAvailable(Channels.Channel1) 
+                var isFreeAnotherChannel = channelNum == Channels.Channel2 ? Device.IsChannelAvailable(Channels.Channel1)
                     : Device.IsChannelAvailable(Channels.Channel2);
 
                 if (isFreeAnotherChannel)
@@ -177,7 +178,7 @@ namespace ModelingConsoleApp
                     FileLines.AddWithTime("Берем из очереди задачу " + firstTask.Type + ". Занимаем оба канала");
 
                     firstTask.PopQueueTime = ModelingTime; //Время извлечения задачи из очереди
-                    Device.Seize(firstTask,Channels.AllChannels);
+                    Device.Seize(firstTask, Channels.AllChannels);
 
                     PlanEvent(EventCode.ReleaseChannelAll, Generator.ExpDistribution(firstTask.Type, GeneratorParametrs.Advance) + ModelingTime, firstTask.Type);
                     return;
@@ -205,7 +206,7 @@ namespace ModelingConsoleApp
         public static void ReleaseChannelAll_EventHandler(Event e)
         {
             Device.Release(Channels.AllChannels);
-            
+
             Device.TaskQueue = Device.TaskQueue.OrderByDescending(t => t.Priority).ToList(); // Без  этого лучше работает (Не сортируем по приоритетам) 
             var firstTask = Device.TaskQueue.FirstOrDefault();
 
@@ -217,7 +218,7 @@ namespace ModelingConsoleApp
             if (firstTask.Type != TaskTypes.ClassC) // В очереди задача класса А или Б
             {
                 Device.TaskQueue.RemoveFirstTask();
-                 firstTask.PopQueueTime = ModelingTime; //Время извлечения задачи из очереди
+                firstTask.PopQueueTime = ModelingTime; //Время извлечения задачи из очереди
                 Device.Seize(firstTask, Channels.Channel1);
                 FileLines.AddWithTime("Берем из очереди задачу " + firstTask.Type + ". Занимаем канал 1");
                 PlanEvent(EventCode.ReleaseChannel1,
@@ -227,7 +228,6 @@ namespace ModelingConsoleApp
 
                 if (secondTask == null)
                 {
-                    Device.Release(Channels.Channel2);
                     return;
                 }
 
@@ -334,9 +334,47 @@ namespace ModelingConsoleApp
 
             Console.WriteLine("Очередь устройтсва: {0}", Device.TaskQueue.Count);
             Console.WriteLine("Средняя длина очереди устройтсва: {0}", Device.QueueLengthAverage);
-            Console.WriteLine("Суммарная длина очереди устройтсва: {0}", Device.QueueLengthSum);
             Console.WriteLine("Среднее время ожидания в очереди: {0}", Device.QueueTimeAverage);
-            Console.WriteLine("Средневзвешанное время ожидания в очереди: {0}", Device.QueueWeightTimeAverage);
+            Console.WriteLine("Средневзвешенное время ожидания в очереди: {0}", Device.QueueWeightTimeAverage);
+        }
+
+        private static void StatisticsDisplayColor(ConsoleColor color)
+        {
+            Console.WriteLine("------------------------------");
+            Console.Write("Задач сгенерированно: ");
+            Console.ForegroundColor = color;
+            Console.WriteLine(TaskBase.GenCount);
+
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("Задач прошло через систему: ");
+            Console.ForegroundColor = color;
+            Console.WriteLine(Device.TaskReleaseCount);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("Средняя длительность прохождения задач через систему: ");
+            Console.ForegroundColor = color;
+            Console.WriteLine(Device.TasksAverageSystemTime);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("Очередь устройтсва: ");
+            Console.ForegroundColor = color;
+            Console.WriteLine(Device.TaskQueue.Count);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("Средняя длина очереди устройтсва: ");
+            Console.ForegroundColor = color;
+            Console.WriteLine(Device.QueueLengthAverage);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("Среднее время ожидания в очереди: ");
+            Console.ForegroundColor = color;
+            Console.WriteLine(Device.QueueTimeAverage);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("Средневзвешенное время ожидания в очереди: ");
+            Console.ForegroundColor = color;
+            Console.WriteLine(Device.QueueWeightTimeAverage);
         }
 
     }

@@ -119,6 +119,19 @@
              Для задержки при обслуживании
             </summary>
         </member>
+        <member name="M:ModelingConsoleApp.Infrastructure.EventDictionary.GetValue(System.Int32)">
+            <summary>
+            Получение названия события
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ModelingConsoleApp.Infrastructure.EventDictionary.DisplayEvent(System.Int32)">
+            <summary>
+            Вывод названия события 
+            </summary>
+            <param name="eventCode"></param>
+        </member>
         <member name="M:ModelingConsoleApp.Infrastructure.Extensions.AddWithTime(System.Collections.Generic.List{System.String},System.String)">
             <summary>
             Добавление в список со временем моделирования
@@ -181,9 +194,79 @@
             Средневзвешенное время ожидания в очереди 
             </summary>
         </member>
+        <member name="T:ModelingConsoleApp.Model.Event">
+            <summary>
+            Собитие
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.Event.EventCode">
+            <summary>
+            Код
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.Event.EventTime">
+            <summary>
+            Время
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.Event.TaskType">
+            <summary>
+            Тип задачи
+            </summary>
+        </member>
+        <member name="T:ModelingConsoleApp.Model.TaskBase">
+            <summary>
+            Базовый класс для задач
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Model.TaskBase.GenCount">
+            <summary>
+            Количество поступивших в систему задач
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Model.TaskBase.TerCount">
+            <summary>
+            Количество покинувших  систему задач
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Model.TaskBase.OutQueueCount">
+            <summary>
+            Количество покинувших очередь задач
+            </summary>
+        </member>
+        <member name="F:ModelingConsoleApp.Model.TaskBase.OutQueueWeightCount">
+            <summary>
+            Суммарные весовые коэффциенты покинувших очередб задач
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.TaskBase.Priority">
+            <summary>
+            Приоритет задачи
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.TaskBase.Type">
+            <summary>
+            Тип (класс) задачи
+            </summary>
+        </member>
         <member name="P:ModelingConsoleApp.Model.TaskBase.GenerateTime">
             <summary>
             Время поступления задачи в систему
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.TaskBase.PushQueueTime">
+            <summary>
+            Время поступления в очередь
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.TaskBase.PopQueueTime">
+            <summary>
+            Время выхода из очереди
+            </summary>
+        </member>
+        <member name="P:ModelingConsoleApp.Model.TaskBase.Weight">
+            <summary>
+            Вес задачи (для расчета средневзвешенного)
             </summary>
         </member>
         <member name="M:ModelingConsoleApp.Program.TaskGen_EventHandler(ModelingConsoleApp.Model.Event)">
@@ -224,6 +307,18 @@
         <member name="M:ModelingConsoleApp.Program.PlanEvent(System.Int32,System.Double,System.String)">
             <summary>
             Добавление события в список (планирование)
+            </summary>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.GetTaskInstanceByType(System.String)">
+            <summary>
+            Получение экземпляра события соответсвующего типа
+            </summary>
+            <param name="taskType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ModelingConsoleApp.Program.StatisticsDisplay">
+            <summary>
+            Вывод статистики
             </summary>
         </member>
     </members>

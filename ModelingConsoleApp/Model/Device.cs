@@ -140,14 +140,22 @@ namespace ModelingConsoleApp.Model
         /// </summary>
         public double QueueTimeAverage
         {
-            get { return QueueTimeSum / TaskBase.OutQueueCount; }
+            get
+            {
+                if (TaskBase.OutQueueCount == 0) return 0.0;
+                return QueueTimeSum / TaskBase.OutQueueCount;
+            }
         }
         /// <summary>
         /// Средневзвешенное время ожидания в очереди 
         /// </summary>
         public double QueueWeightTimeAverage
         {
-            get { return QueueWeightTimeSum / TaskBase.OutQueueWeightCount; }
+            get
+            {
+                if (TaskBase.OutQueueWeightCount == 0) return 0.0;
+                return QueueWeightTimeSum / TaskBase.OutQueueWeightCount;
+            }
         }
     }
 }
