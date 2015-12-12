@@ -75,10 +75,21 @@ namespace ModelingConsoleApp.Infrastructure
             {
                 var rand = NextRandomDouble();
                 var val = -beta * Math.Log(Math.E, rand);
-                if (val > 1)
+                Console.WriteLine(val);
+                if (val > Koef(beta,1.08))
                     continue;
                 return val;
             }
+            //while (true)
+            //{
+            //    var rand = NextRandomDouble();
+            //    var val = ((1/beta)*Math.Pow(Math.E, -(rand - 0)/beta));
+            //    Console.WriteLine(val);
+            //    if (val > 0.65)
+            //        continue;
+            //    return val;
+            //}
+           
         }
 
         static double NextRandomDouble()
@@ -91,6 +102,11 @@ namespace ModelingConsoleApp.Infrastructure
 
             var result = _newX / (double)m; //От нуля до единицы
             return result;
+        }
+
+        static double Koef(double beta, double k)
+        {
+            return Math.E*beta/k;
         }
     }
 }
