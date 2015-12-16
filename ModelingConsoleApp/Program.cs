@@ -22,12 +22,14 @@ namespace ModelingConsoleApp
 
         public static List<string> FileLines = new List<string>();
         private const string FilePath = "Log.txt";
+        private const string CsvResFilePath = "Res.csv";
 
         private static void Main(string[] args)
         {
             var modeling = true; // Флаг работы модели
             InitializationEvent(); // Инициализирующее событие
 
+            Console.WriteLine("Идет процесс моделирования...");
             while (modeling) // Основной цикл моделирования 
             {
                 var currentEvent = GetEvent();
@@ -55,16 +57,19 @@ namespace ModelingConsoleApp
                 }
             }
 
+            //   StatisticsDisplay();
+            StatisticsDisplayColor(ConsoleColor.Green);
+           
             if (!File.Exists(FilePath))
             {
                 using (File.Create(FilePath)) { }
             }
-
-            //   StatisticsDisplay();
-            StatisticsDisplayColor(ConsoleColor.Green);
-
             File.WriteAllLines(FilePath, FileLines);
-            Process.Start(FilePath);
+           // Process.Start(FilePath);
+
+            ResToFile(CsvResFilePath);
+            Process.Start(CsvResFilePath);
+
             Console.ReadKey();
 
         }
@@ -261,7 +266,7 @@ namespace ModelingConsoleApp
         /// </summary>
         public static void StopModeling_EventHandler(Event e)
         {
-            Console.WriteLine("Конец моделирования");
+            Console.WriteLine("Моделирование завершено");
             Console.WriteLine("Время моделирования: " + ModelingTime);
         }
 
@@ -349,6 +354,23 @@ namespace ModelingConsoleApp
             DipslayStatisricItem("Средневзвешенное время ожидания в очереди", Device.QueueWeightTimeAverage, color);
 
         }
+
+        private static void ResToFile(string path)
+        {
+            if (!File.Exists(path))
+            {
+                using (File.Create(path)) { }
+            }
+            var resParamList = new List<string>
+            {
+                Device.TasksAverageSystemTime.ToString("F3"),
+                Device.QueueLengthAverage.ToString("F3"),
+                Device.QueueTimeAverage.ToString("F3"),
+                Device.QueueWeightTimeAverage.ToString("F3")
+            };
+            File.WriteAllLines(CsvResFilePath, resParamList);
+        } 
+
 
         private static void DipslayStatisricItem(string str, object paramert, ConsoleColor color)
         {

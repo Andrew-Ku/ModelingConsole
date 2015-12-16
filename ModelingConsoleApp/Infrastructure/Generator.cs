@@ -75,7 +75,7 @@ namespace ModelingConsoleApp.Infrastructure
             {
                 var rand = NextRandomDouble();
                 var val = -beta * Math.Log(Math.E, rand);
-                Console.WriteLine(val);
+                //Console.WriteLine(val);
                 if (val > Koef(beta,1.08))
                     continue;
                 return val;
